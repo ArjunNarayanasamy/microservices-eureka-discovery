@@ -14,6 +14,8 @@ import java.util.List;
 @RequestMapping("/ratingsdata")
 public class RatingsDataController {
 
+    int counter = 0;
+
     @GetMapping("/{movieId}")
     public Rating getRating(@PathVariable("movieId") String movieId) {
         return new Rating("test_movie", 5);
@@ -21,12 +23,20 @@ public class RatingsDataController {
 
     @GetMapping("users/{userId}")
     public UserRating getUserRating(@PathVariable("userId") String userId) {
-        List<Rating> ratings = Arrays.asList(
-                new Rating("1234", 4),
-                new Rating("1235", 5)
-        );
+        counter++;
         UserRating userRating = new UserRating();
-        userRating.setUserRating(ratings);
+        try {
+            if(counter>2) {
+                Thread.sleep(6000);
+            }
+            List<Rating> ratings = Arrays.asList(
+                    new Rating("1234", 4),
+                    new Rating("1235", 5)
+            );
+            userRating.setUserRating(ratings);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return userRating;
     }
 
